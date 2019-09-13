@@ -1,77 +1,94 @@
 package io.tasks.model;
 
 import java.time.LocalDate;
-import java.util.Set;
+import javax.persistence.*;
 
+@Entity
 public class Task {
 
-    private Long id;
-    private String description;
-    private LocalDate deadline;
-    private LocalDate createdAt;
-    private Category category;
-    private Status status;
-    private LocalDate canceledAt;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    public Task(Long id, String description, LocalDate deadline, LocalDate createdAt, Category category, Status status, LocalDate canceledAt) {
-        this.id = id;
-        this.description = description;
-        this.deadline = deadline;
-        this.createdAt = createdAt;
-        this.category = category;
-        this.status = status;
-        this.canceledAt = canceledAt;
-    }
+  private String description;
+  private LocalDate deadline;
+  private LocalDate createdAt;
 
-    public Long getId() {
-        return id;
-    }
+  @ManyToOne private Category category;
 
-    public String getDescription() {
-        return description;
-    }
+  @Enumerated(value = EnumType.STRING)
+  private Status status;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  private LocalDate canceledAt;
 
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
+  public Task() {};
 
-    public LocalDate getDeadline() {
-        return deadline;
-    }
+  public Task(
+      Long id,
+      String description,
+      LocalDate deadline,
+      LocalDate createdAt,
+      Category category,
+      Status status,
+      LocalDate canceledAt) {
+    this.id = id;
+    this.description = description;
+    this.deadline = deadline;
+    this.createdAt = createdAt;
+    this.category = category;
+    this.status = status;
+    this.canceledAt = canceledAt;
+  }
 
-    public void setDeadline(LocalDate deadline) {
-        this.deadline = deadline;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public Category getCategory() {
-        return category;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public Status getStatus() {
-        return status;
-    }
+  public LocalDate getCreatedAt() {
+    return createdAt;
+  }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+  public LocalDate getDeadline() {
+    return deadline;
+  }
 
-    public LocalDate getCanceledAt() {
-        return canceledAt;
-    }
+  public void setDeadline(LocalDate deadline) {
+    this.deadline = deadline;
+  }
 
-    public void setCanceledAt(LocalDate canceledAt) {
-        this.canceledAt = canceledAt;
-    }
+  public Category getCategory() {
+    return category;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public void setCategory(Category category) {
+    this.category = category;
+  }
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+  }
+
+  public LocalDate getCanceledAt() {
+    return canceledAt;
+  }
+
+  public void setCanceledAt(LocalDate canceledAt) {
+    this.canceledAt = canceledAt;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
 }

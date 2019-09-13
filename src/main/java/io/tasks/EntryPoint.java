@@ -1,19 +1,24 @@
 package io.tasks;
 
 import io.tasks.persistence.CategoryRepository;
-import io.tasks.persistence.MemoryCategoryRepository;
-import io.tasks.persistence.MemoryTaskRepository;
+import io.tasks.persistence.HibernateCategoryRepository;
+import io.tasks.persistence.HibernateTaskRepository;
 import io.tasks.persistence.TaskRepository;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class EntryPoint {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        TaskRepository taskRepository = new MemoryTaskRepository();
-        CategoryRepository categoryRepository = new MemoryCategoryRepository();
+    EntityManagerFactory factory = Persistence.createEntityManagerFactory("tasks");
 
-        Application application = new Application(taskRepository, categoryRepository);
+    TaskRepository taskRepository = new HibernateTaskRepository(factory.createEntityManager());
+    CategoryRepository categoryRepository =
+        new HibernateCategoryRepository(factory.createEntityManager());
 
-        application.start();
-    }
+    Application application = new Application(taskRepository, categoryRepository);
+
+    application.start();
+  }
 }
