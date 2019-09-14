@@ -7,56 +7,55 @@ import java.util.Scanner;
 
 public interface Prompts {
 
-    default int choice(int limit, Scanner scanner) {
+  default int choice(int limit, Scanner scanner) {
 
-        int choice = 0;
+    int choice = 0;
 
-        while (choice <= 0 || choice > limit) {
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException ignored) {
-            }
-        }
-        System.out.println();
-
-        return choice;
+    while (choice <= 0 || choice > limit) {
+      try {
+        choice = Integer.parseInt(scanner.nextLine());
+      } catch (NumberFormatException ignored) {
+      }
     }
+    System.out.println();
 
-    default boolean yesNo(Scanner scanner) {
+    return choice;
+  }
 
-        String choice = "";
+  default boolean yesNo(Scanner scanner) {
 
-        while (!choice.equals("n") && !choice.equals("t")) {
-            try {
-                choice = scanner.nextLine().toLowerCase();
-            } catch (InputMismatchException ignored) {
-            }
-        }
-        System.out.println();
+    String choice = "";
 
-        return choice.equals("t");
+    while (!choice.equals("n") && !choice.equals("t")) {
+      try {
+        choice = scanner.nextLine().toLowerCase();
+      } catch (InputMismatchException ignored) {
+      }
     }
+    System.out.println();
 
-    default String text(Scanner scanner) {
-        String result = "";
-        while (result.trim().isEmpty()) {
-            result = scanner.nextLine();
-        }
-        System.out.println();
-        return result;
+    return choice.equals("t");
+  }
+
+  default String text(Scanner scanner) {
+    String result = "";
+    while (result.trim().isEmpty()) {
+      result = scanner.nextLine();
     }
+    System.out.println();
+    return result;
+  }
 
-    default LocalDate date(Scanner scanner) {
-        LocalDate date = null;
-        while (date == null) {
-            try {
-                date = LocalDate.parse(scanner.nextLine());
-            } catch (DateTimeParseException e) {
-                System.out.println("Nieprawidłowy format daty!");
-            }
-        }
-        System.out.println();
-        return date;
+  default LocalDate date(Scanner scanner) {
+    LocalDate date = null;
+    while (date == null) {
+      try {
+        date = LocalDate.parse(scanner.nextLine());
+      } catch (DateTimeParseException e) {
+        System.out.println("Nieprawidłowy format daty!");
+      }
     }
-
+    System.out.println();
+    return date;
+  }
 }

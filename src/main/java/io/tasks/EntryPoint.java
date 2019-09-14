@@ -1,19 +1,31 @@
 package io.tasks;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import io.tasks.persistence.CategoryRepository;
-import io.tasks.persistence.MemoryCategoryRepository;
-import io.tasks.persistence.MemoryTaskRepository;
+import io.tasks.persistence.JdbcCategoryRepository;
+import io.tasks.persistence.JdbcTaskRepository;
 import io.tasks.persistence.TaskRepository;
+import javax.sql.DataSource;
 
 public class EntryPoint {
 
-    public static void main(String[] args) {
+  public static DataSource createDataSource() {
 
-        TaskRepository taskRepository = new MemoryTaskRepository();
-        CategoryRepository categoryRepository = new MemoryCategoryRepository();
+    MysqlDataSource dataSource = new MysqlDataSource();
 
-        Application application = new Application(taskRepository, categoryRepository);
+    dataSource.setUser("tasks_user");
+    dataSource.setPassword("pass");
+    dataSource.setUrl("jdbc:mysql://localhost:3306/tasks");
+    return dataSource;
+  }
 
-        application.start();
-    }
+  public static void main(String[] args) {
+
+    TaskRepository taskRepository = new JdbcTaskRepository(createDataSource());
+    CategoryRepository categoryRepository = new JdbcCategoryRepository(createDataSource());
+
+    Application application = new Application(taskRepository, categoryRepository);
+
+    application.start();
+  }
 }
